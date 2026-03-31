@@ -1,5 +1,25 @@
 #!/bin/sh
 #
+# Android IDE compatibility: ensure GRADLE_USER_HOME is writable
+if [ -z "$GRADLE_USER_HOME" ]; then
+    _default_gradle_home="$HOME/.gradle"
+    # Try to create the default location; if it fails, use a writable fallback
+    if ! mkdir -p "$_default_gradle_home" 2>/dev/null; then
+        # Try Android IDE's app data directory
+        for _candidate in \
+            "/data/data/com.itsaky.androidide/files/home/.gradle" \
+            "/data/user/0/com.itsaky.androidide/files/home/.gradle" \
+            "/sdcard/AndroidIDE/.gradle" \
+            "/tmp/.gradle-$(id -u 2>/dev/null || echo 0)"
+        do
+            if mkdir -p "$_candidate" 2>/dev/null; then
+                export GRADLE_USER_HOME="$_candidate"
+                break
+            fi
+        done
+    fi
+fi
+#
 # Copyright © 2015-2021 the original authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
