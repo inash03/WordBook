@@ -18,9 +18,10 @@ import javax.inject.Inject
 data class DeckStat(
     val deckName: String,
     val total: Int,
-    val remembered: Int,
+    val remembered: Int
+) {
     val progress: Float get() = if (total == 0) 0f else remembered.toFloat() / total
-)
+}
 
 data class StatsUiState(
     val totalCards: Int = 0,
