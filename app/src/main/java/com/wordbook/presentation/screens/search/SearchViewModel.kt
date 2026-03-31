@@ -24,7 +24,7 @@ import javax.inject.Inject
 data class SearchUiState(
     val query: String = "",
     val results: List<Card> = emptyList(),
-    val selectedLabelIds: Set<String> = emptySet(),
+    val selectedLabelIds: Set<Long> = emptySet(),
     val selectedStudyStatus: StudyStatus? = null,
     val allLabels: List<Label> = emptyList(),
     val isLoading: Boolean = false,
@@ -42,7 +42,7 @@ class SearchViewModel @Inject constructor(
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     private val queryFlow = MutableStateFlow("")
-    private val labelIdsFlow = MutableStateFlow<Set<String>>(emptySet())
+    private val labelIdsFlow = MutableStateFlow<Set<Long>>(emptySet())
     private val studyStatusFlow = MutableStateFlow<StudyStatus?>(null)
 
     init {
@@ -92,7 +92,7 @@ class SearchViewModel @Inject constructor(
         queryFlow.value = newQuery
     }
 
-    fun onLabelToggle(labelId: String) {
+    fun onLabelToggle(labelId: Long) {
         val current = labelIdsFlow.value.toMutableSet()
         if (current.contains(labelId)) {
             current.remove(labelId)

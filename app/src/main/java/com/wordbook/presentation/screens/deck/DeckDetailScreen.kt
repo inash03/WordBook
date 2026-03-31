@@ -176,7 +176,7 @@ fun DeckDetailScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding),
-                        message = "No cards yet. Tap + to add one!",
+                        title = "No cards yet. Tap + to add one!",
                     )
                 }
 

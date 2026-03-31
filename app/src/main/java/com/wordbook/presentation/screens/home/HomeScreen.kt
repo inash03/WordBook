@@ -223,7 +223,7 @@ fun HomeScreen(
                     uiState.decks.isEmpty() -> {
                         EmptyState(
                             modifier = Modifier.fillMaxSize(),
-                            message = if (uiState.query.isNotEmpty() || uiState.selectedLabelIds.isNotEmpty()) {
+                            title = if (uiState.query.isNotEmpty() || uiState.selectedLabelIds.isNotEmpty()) {
                                 "No decks match your filters"
                             } else {
                                 "No decks yet. Tap + to create one!"

@@ -57,7 +57,7 @@ import com.wordbook.presentation.components.LabelChip
 @Composable
 fun SearchScreen(
     onBack: () -> Unit,
-    onCardDeckClick: (String) -> Unit,
+    onCardDeckClick: (Long) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -147,7 +147,7 @@ fun SearchScreen(
                 ) {
                     EmptyState(
                         title = "No Results",
-                        message = "No cards matched your search."
+                        subtitle = "No cards matched your search."
                     )
                 }
             } else {
@@ -175,9 +175,9 @@ fun SearchScreen(
 @Composable
 private fun FilterRow(
     allLabels: List<Label>,
-    selectedLabelIds: Set<String>,
+    selectedLabelIds: Set<Long>,
     selectedStudyStatus: StudyStatus?,
-    onLabelToggle: (String) -> Unit,
+    onLabelToggle: (Long) -> Unit,
     onStatusFilter: (StudyStatus?) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -217,7 +217,7 @@ private fun FilterRow(
             LabelChip(
                 label = label,
                 selected = label.id in selectedLabelIds,
-                onClick = { onLabelToggle(label.id) }
+                onToggle = { onLabelToggle(label.id) }
             )
         }
     }

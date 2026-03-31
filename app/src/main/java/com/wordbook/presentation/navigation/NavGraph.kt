@@ -28,6 +28,7 @@ fun NavGraph(navController: NavHostController) {
             HomeScreen(
                 onDeckClick = { navController.navigate(Screen.DeckDetail.createRoute(it)) },
                 onCreateDeck = { navController.navigate(Screen.DeckEdit.createRoute()) },
+                onEditDeck = { navController.navigate(Screen.DeckEdit.createRoute(it)) },
                 onSearchClick = { navController.navigate(Screen.Search.route) },
                 onHistoryClick = { navController.navigate(Screen.History.route) },
                 onStatsClick = { navController.navigate(Screen.Stats.route) },
@@ -159,7 +160,7 @@ fun NavGraph(navController: NavHostController) {
         composable(Screen.Search.route) {
             SearchScreen(
                 onBack = { navController.popBackStack() },
-                onCardDeckClick = { deckId -> navController.navigate(Screen.DeckDetail.createRoute(deckId)) }
+                onCardDeckClick = { deckId: Long -> navController.navigate(Screen.DeckDetail.createRoute(deckId)) }
             )
         }
 
