@@ -1,5 +1,22 @@
 #!/bin/sh
 #
+# Android IDE compatibility: set JAVA_HOME to bundled JDK 17 if not set
+if [ -z "$JAVA_HOME" ]; then
+    for _jdk in \
+        "/data/data/com.itsaky.androidide/files/home/jdk" \
+        "/data/user/0/com.itsaky.androidide/files/home/jdk" \
+        "/data/data/com.itsaky.androidide/files/jdk" \
+        "/data/user/0/com.itsaky.androidide/files/jdk" \
+        "/data/data/com.itsaky.androidide/files/home/android-sdk/jdk" \
+        "/sdcard/AndroidIDE/jdk"
+    do
+        if [ -x "$_jdk/bin/java" ]; then
+            export JAVA_HOME="$_jdk"
+            break
+        fi
+    done
+fi
+#
 # Android IDE compatibility: ensure GRADLE_USER_HOME is writable
 if [ -z "$GRADLE_USER_HOME" ]; then
     _default_gradle_home="$HOME/.gradle"
