@@ -8,13 +8,40 @@ if [ -z "$JAVA_HOME" ]; then
         "/data/data/com.itsaky.androidide/files/jdk" \
         "/data/user/0/com.itsaky.androidide/files/jdk" \
         "/data/data/com.itsaky.androidide/files/home/android-sdk/jdk" \
-        "/sdcard/AndroidIDE/jdk"
+        "/data/user/0/com.itsaky.androidide/files/home/android-sdk/jdk" \
+        "/sdcard/AndroidIDE/jdk" \
+        "/data/data/com.itsaky.androidide/files/home/jre" \
+        "/data/user/0/com.itsaky.androidide/files/home/jre" \
+        "/data/data/com.itsaky.androidide/files/jre" \
+        "/data/user/0/com.itsaky.androidide/files/jre"
     do
         if [ -x "$_jdk/bin/java" ]; then
             export JAVA_HOME="$_jdk"
             break
         fi
     done
+fi
+
+# If still not found, try to locate java binary via 'which' or PATH inspection
+if [ -z "$JAVA_HOME" ]; then
+    _java_bin="$(which java 2>/dev/null)"
+    if [ -n "$_java_bin" ]; then
+        # Resolve symlinks to find real location
+        _real_java="$(readlink -f "$_java_bin" 2>/dev/null || echo "$_java_bin")"
+        # Strip /bin/java to get JAVA_HOME
+        _candidate_home="${_real_java%/bin/java}"
+        if [ "$_candidate_home" != "$_real_java" ] && [ -d "$_candidate_home" ]; then
+            export JAVA_HOME="$_candidate_home"
+        fi
+    fi
+fi
+
+# Print diagnostic info so user can see which Java is being used
+echo "[gradlew] JAVA_HOME=${JAVA_HOME:-<not set>}"
+if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+    echo "[gradlew] java version: $("$JAVA_HOME/bin/java" -version 2>&1 | head -1)"
+else
+    echo "[gradlew] java in PATH: $(java -version 2>&1 | head -1)"
 fi
 #
 # Android IDE compatibility: ensure GRADLE_USER_HOME is writable
