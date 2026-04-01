@@ -190,3 +190,40 @@ LaunchedEffect(uiState.errorMessage) {
 | AGP | 8.3.2 |
 | minSdk | 26 |
 | targetSdk / compileSdk | 34 |
+
+---
+
+## Issue-Driven Development
+
+### Labels
+| Label | Meaning |
+|---|---|
+| `ready` | Fully specified, ready for Claude to implement |
+| `in-progress` | Claude is currently working on it |
+| `needs-review` | PR is open, waiting for merge |
+
+### Issue Format
+Issues must include:
+- **Type**: `bug` or `feature` (use the appropriate issue template)
+- **Description**: clear explanation of the problem or desired behavior
+- **Acceptance Criteria**: checklist of conditions that define "done"
+- **Affected Files / Layers** (optional): hints about scope
+
+### Trigger
+User says **"process open issues"** or **"handle issue #N"**.
+
+### Claude's Issue-Handling Process (strictly in order)
+1. List issues labelled `ready` in `inash03/wordbook`
+2. Pick the oldest unprocessed one (or the one the user specified)
+3. Read the full issue body; if acceptance criteria are missing or ambiguous,
+   **comment on the issue asking for clarification — do NOT start implementing**
+4. Add label `in-progress`; remove label `ready`
+5. Create branch:
+   - Bug → `fix/<issue-number>-<short-slug>`
+   - Feature → `feature/<issue-number>-<short-slug>`
+6. Implement **Minimum Viable Change** only — no scope creep
+7. Commit with `Generated-by: Claude (claude.ai/code)` in the commit body
+8. Push branch and open PR with `Closes #<issue-number>` in the PR body
+9. Comment on the issue: link to the PR
+10. Update `tasks.md` — add issue to "In Progress"
+11. Summarize what was done and propose next steps
