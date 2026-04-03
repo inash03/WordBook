@@ -212,6 +212,24 @@ Issues must include:
 ### Trigger
 User says **"process open issues"** or **"handle issue #N"**.
 
+### Reporting Bugs or Features Directly in Chat
+Instead of going to GitHub, you can report issues directly in this chat.
+Use either of these prefixes:
+
+```
+bug: <title>
+<description of what goes wrong>
+
+feature: <title>
+<description of what you want>
+```
+
+Claude will then:
+1. Create a GitHub issue from your description (applying the template format)
+2. Immediately proceed with the full issue-handling process (steps 4–11 above)
+
+If acceptance criteria are unclear, Claude will ask before implementing.
+
 ### Claude's Issue-Handling Process (strictly in order)
 1. List issues labelled `ready` in `inash03/wordbook`
 2. Pick the oldest unprocessed one (or the one the user specified)
